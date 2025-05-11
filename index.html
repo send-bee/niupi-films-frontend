@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Niupi Films</title>
+  <link rel="stylesheet" href="estilos.css" />
+</head>
+<body>
+
+  <header>
+    <h1 class="logo">Niupi<span id="probando">Films</span></h1>
+    <button id="menu-toggle" class="menu-toggle">☰</button>
+    <nav id="nav-menu" class="nav-menu">
+      <ul>
+        <li id="iniciar-sesion-button" class=""><a>Iniciar sesión</a></li>
+        <li id="cerrar-sesion-button" class="disabled"><a>Cerrar sesión</a></li>
+        <li><a href="">Películas</a></li>
+        <li><a href="">Listas</a></li>
+        <li><a href="">Miembros</a></li>
+        <li><a href="">Buscar 🔍</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="hero-main">
+    <section id="hero-section" class="hero">
+      <div class="hero-overlay">
+      <div class="hero-content">
+        <h1>Rastrea las películas que has visto.</h1>
+        <h2>Guarda las que quieres ver.</h2>
+        <p>¡Y comparte tus favoritas con tus amigos!</p>
+        <button id="registrarse-button" class="btn-primary">Regístrate gratis</button>
+      </div>
+      </div>
+    </section>
+    <section id="hero-user" class="hero disabled">
+      <div class="hero-overlay">
+      <div class="hero-content">
+        <h1 id="hero-user-name"></h1>
+        <h2>Bienvenid@</h2>
+        <p>¡Colecciona tus peliculas favoritas y haz planes con tus amigos!</p>
+        <a href="#moviesGrid"><button class="btn-primary">Comenzar</button></a>
+      </div>
+      </div>
+    </section>
+    <section id="favorite-movies-section" class="movies-section disabled">
+      <h2>Películas favoritas</h2>
+      <h4 id="no-colection" class="disabled">Aún no tienes una colección de películas favoritas</h4>
+      <div id="favoriteMoviesGrid" class="movies-grid"></div>
+    </section>
+    <section class="movies-section">
+      <h2>Películas populares</h2>
+      <div id="moviesGrid" class="movies-grid"></div>
+    </section>
+  </main>
+
+  <section id="sign-in" class="sign-in disabled">
+    <form action="submit" id="sign-in-form">
+      <h2>Diligencia los siguientes campos para iniciar sesión</h2>
+      <label for="email">Correo electronico</label>
+      <input type="email" id="sign-in-email" placeholder="jhondoe@email.com" required>
+      <label for="password">Contraseña</label>
+      <input type="password" id="sign-in-password" placeholder="********" required>
+      <div id="first-spinner" class="btn-primary disabled"><div class="spinner"></div></div>
+      <button class="btn-primary" id="sign-in-submit-button">Iniciar sesión</button>
+      <h5>¿Aún no tienes una cuenta?</h5>
+      <h3 class="cursor" id="registrarse-secondbutton">Registrate aqui</h3>
+      <h4 class="cursor"  id="sign-in-close">Regresar</h4>
+    </form>
+  </section>
+
+  <section id="sign-up" class="sign-up disabled">
+    <form action="submit" id="sign-up-form">
+      <h2>Diligencia los siguientes campos para registrarte</h2>
+      <label for="name">Nombre</label>
+      <input type="text" id="sign-up-name" placeholder="Jhon Doe" required>
+      <label for="email">Correo electronico</label>
+      <input type="email" id="sign-up-email" placeholder="jhondoe@email.com" required>
+      <label for="password">Contraseña</label>
+      <input type="password" id="sign-up-password" placeholder="********" required>
+      <div id="second-spinner" class="btn-primary disabled"><div class="spinner"></div></div>
+      <button class="btn-primary" id="sign-up-submit-button">Registrarme</button>
+      <h4 class="cursor"  id="sign-up-close">Regresar</h4>
+    </form>
+  </section>
+
+  <footer>
+    <p>© 2025 GrupoNiupi. Todos los derechos reservados.</p>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="./js/app.js"></script>
+  <script src="./js/script.js"></script>
+</body>
+</html>
