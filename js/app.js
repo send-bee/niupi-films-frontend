@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
       card.innerHTML = `
         <img src="${movie.image}" alt="${movie.title}" />
         <button class="btn-secundary-add" id="${movie.id}">❤️</button>
-        <button class="btn-secundary-remove" id="${movie.id}">❌</button>
+        <button class="btn-secundary-remove disabled" id="${movie.id}">❌</button>
         <div class="movie-title">${movie.title}</div>
         <p>${movie.id}</p>
       `;
