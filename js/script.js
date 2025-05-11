@@ -11,7 +11,7 @@ let heroUser = document.getElementById("hero-user");
 let heroUserName = document.getElementById("hero-user-name");
 let favoritesFilmSection = document.getElementById("favorite-movies-section");
 let noColection = document.getElementById("no-colection");
-let signUpSetion = document.getElementById("sign-up");
+let signUpSection = document.getElementById("sign-up");
 let signInSection = document.getElementById("sign-in");
 let signInButton = document.getElementById("iniciar-sesion-button");
 let signOutButton = document.getElementById("cerrar-sesion-button");
@@ -45,31 +45,31 @@ document.addEventListener("DOMContentLoaded", ()=>{
 signInButton.addEventListener("click", ()=>{
     heroMain.classList.add("disabled");
     signInSection.classList.remove("disabled");
-    signUpSetion.classList.add("disabled");
+    signUpSection.classList.add("disabled");
 });
 
 signUpButton.addEventListener("click", ()=>{
     heroMain.classList.add("disabled");
     signInSection.classList.add("disabled");
-    signUpSetion.classList.remove("disabled");
+    signUpSection.classList.remove("disabled");
 });
 
 signUpSecondButton.addEventListener("click", ()=>{
     heroMain.classList.add("disabled");
     signInSection.classList.add("disabled");
-    signUpSetion.classList.remove("disabled");
+    signUpSection.classList.remove("disabled");
 });
 
 signInClose.addEventListener("click", ()=>{
     heroMain.classList.remove("disabled");
     signInSection.classList.add("disabled");
-    signUpSetion.classList.add("disabled");
+    signUpSection.classList.add("disabled");
 });
 
 signUpClose.addEventListener("click", ()=>{
     heroMain.classList.remove("disabled");
     signInSection.classList.add("disabled");
-    signUpSetion.classList.add("disabled");
+    signUpSection.classList.add("disabled");
 });
 
 signOutButton.addEventListener("click", ()=>{
