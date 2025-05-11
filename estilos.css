@@ -285,7 +285,7 @@ input {
   display: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 700px) {
   .menu-toggle {
     display: block;
   }
@@ -311,5 +311,16 @@ input {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+  }
+}
+
+@media (max-width: 500px) {
+  input {
+    width: 350px;
+  }
+}
+@media (max-width: 400px) {
+  input {
+    width: 280px;
   }
 }
