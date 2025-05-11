@@ -113,7 +113,7 @@ async function signUp (e) {
             signUpSubmitButton.classList.remove("disabled");
             secondSpinner.classList.add("disabled");
             heroMain.classList.remove("disabled");
-            signInSection.classList.add("disabled");
+            signUpSection.classList.add("disabled");
             signInButton.classList.add("disabled");
             signOutButton.classList.remove("disabled");
             heroSection.classList.add("disabled");

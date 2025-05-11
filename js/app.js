@@ -132,7 +132,7 @@ async function addFavorite(e) {
       } else {
         try {
           userToUse.favoritesFilms.push(idMovieToAdd);
-          const r = await fetch("http://localhost:5000/portal-movies/update-favorites", {
+          const r = await fetch("https://niupi-films-backend.onrender.com/portal-movies/update-favorites", {
             method: 'POST',
             credentials: "include",
             headers: {
