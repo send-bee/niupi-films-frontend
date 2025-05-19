@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
         heroSection.classList.add("disabled");
         heroUser.classList.remove("disabled");
         favoritesFilmSection.classList.remove("disabled");
+        getFavoritesFilmsFromDb();
         if (user.favoritesFilms.length < 1) {
             noColection.classList.remove("disabled")
         }
@@ -85,8 +86,9 @@ async function signUp (e) {
     e.preventDefault();
     signUpSubmitButton.classList.add("disabled");
     secondSpinner.classList.remove("disabled");
-    const res = await fetch('https://niupi-films-backend.onrender.com/portal-users/create-account', {
+    const res = await fetch(`${link}/portal-users/create-account`, {
         method: 'POST',
+        credentials: "include",
         headers: {
         'Content-Type': 'application/json',
         },
@@ -119,6 +121,7 @@ async function signUp (e) {
             heroSection.classList.add("disabled");
             heroUser.classList.remove("disabled");
             favoritesFilmSection.classList.remove("disabled");
+            getFavoritesFilmsFromDb();
             if (data.data.favoritesFilms.length < 1) {
             noColection.classList.remove("disabled")}
             signUpName.value = "";
@@ -150,8 +153,9 @@ async function signIn (e) {
     e.preventDefault();
     signInSubmitButton.classList.add("disabled");
     firstSpinner.classList.remove("disabled");
-    const res = await fetch('https://niupi-films-backend.onrender.com/portal-users/create-session', {
+    const res = await fetch(`${link}/portal-users/create-session`, {
         method: 'POST',
+        credentials: "include",
         headers: {
         'Content-Type': 'application/json',
         },
@@ -183,6 +187,7 @@ async function signIn (e) {
             heroSection.classList.add("disabled");
             heroUser.classList.remove("disabled");
             favoritesFilmSection.classList.remove("disabled");
+            getFavoritesFilmsFromDb();
             if (data.data.favoritesFilms.length < 1) {
             noColection.classList.remove("disabled")}
             signInEmail.value = "";

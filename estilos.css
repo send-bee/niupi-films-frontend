@@ -50,12 +50,32 @@ nav a:hover {
 }
 
 /* Filtros */
+.filters select {
+  background-color: #2b3137;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  appearance: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.filters select:focus {
+  outline: 2px solid #00ffcc;
+}
+
 .filters {
   padding: 1rem 2rem;
   background-color: #1c1f26;
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
+}
+
+.ejemplo {
+  display: flex;
+
 }
 
 .filters button,
@@ -65,13 +85,7 @@ nav a:hover {
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 5px;
-  font-size: 0.9rem;
-}
-
-.filters button:hover {
-  background-color: #00ffcc;
-  color: #161b22;
-  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 .filters input {
@@ -79,10 +93,22 @@ nav a:hover {
   max-width: 200px;
 }
 
+.filters button:hover,
+.filters button:focus {
+  background-color: #333;
+  outline: none;
+}
+
+.filters button.active-filter {
+  background-color: white;
+  color: #222;
+  font-weight: bold;
+}
+
 /* Hero */
 .hero {
   position: relative;
-  background-image: url('assets/hero.jpg');
+  background-image: url('https://imgs.search.brave.com/bvEzP_77IqHxP-a-U1P6wvTaKALfjjrKvZXRXE3qrLo/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvMTMw/NTQ2NDE3NC9lcy9m/b3RvL2JhY2tncm91/bmQtZmlsbXN0cmlw/LmpwZz9zPTYxMng2/MTImdz0wJms9MjAm/Yz03b3VRbEJybkow/OWRKQ293Q1NYQkI2/N3RNRWZmbmVYTGVw/aW1sTUg4ejM4PQ');
   background-size: cover;
   background-position: center;
   height: 350px;
@@ -142,7 +168,7 @@ nav a:hover {
   cursor: pointer;
   position: absolute;
   right: 0px;
-  top: 0px;
+  bottom: 10px;
   z-index: 100;
 }
 
@@ -170,20 +196,20 @@ main h2 {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 1rem;
+  padding: 1rem;
 }
 
-/* Tarjeta de película */
 .movie {
   background-color: #222;
-  position: relative;
   border-radius: 8px;
   overflow: hidden;
-  transition: transform 0.2s ease;
-  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
 
-.movie:hover {
+.movie:hover,
+.movie:focus-within {
   transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
 }
 
 .movie img {
@@ -196,7 +222,62 @@ main h2 {
   padding: 0.5rem;
   text-align: center;
   font-size: 0.9rem;
+}
+
+.movie-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+  background-color: #1c1c1c;
   color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 300px;
+  background-size: cover;
+  background-position: center;
+}
+
+.movie-card:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 6px 20px rgba(0, 255, 204, 0.4);
+}
+
+.movie-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 40%, rgba(0, 0, 0, 0) 100%);
+  z-index: 1;
+}
+
+.movie-card-content {
+  position: relative;
+  z-index: 2;
+  padding: 1rem;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.movie-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+}
+
+.movie-card p {
+  margin: 0.2rem 0;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+.movie-card img {
+  transition: transform 0.5s ease;
+}
+
+.movie-card:hover img {
+  transform: scale(1.1);
 }
 
 footer {

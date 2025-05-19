@@ -17,7 +17,6 @@
         <li id="cerrar-sesion-button" class="disabled"><a>Cerrar sesión</a></li>
         <li><a href="">Películas</a></li>
         <li><a href="">Listas</a></li>
-        <li><a href="">Miembros</a></li>
         <li><a href="">Buscar 🔍</a></li>
       </ul>
     </nav>
@@ -44,14 +43,57 @@
       </div>
       </div>
     </section>
+    <section class="filters">
+      <form id="filterForm">
+        <div class="filters">
+          <label for="genreSelect">Género:</label>
+        <select id="genreSelect">
+          <option value="">Todos</option>
+          <option value="Sci-Fi">Sci-Fi</option>
+          <option value="Terror">Terror</option>
+          <option value="Fantasía">Fantasía</option>
+          <option value="Acción">Acción</option>
+          <option value="Drama">Drama</option>
+          <option value="Comedia">Comedia</option>
+        </select>
+        
+        <label for="yearSelect">Década:</label>
+        <select id="yearSelect">
+          <option value="">Todas</option>
+          <option value="1970-1979">70s</option>
+          <option value="1980-1989">80s</option>
+          <option value="1990-1999">90s</option>
+          <option value="2000-2009">2000s</option>
+          <option value="2010-2019">2010s</option>
+          <option value="2020-2029">2020s</option>
+        </select>
+
+        <label for="ratingSelect">Calificación:</label>
+        <select id="ratingSelect">
+          <option value="">Todos</option>
+          <option value="7">7+</option>
+          <option value="8">8+</option>
+          <option value="9">9+</option>
+        </select>
+
+        </div>
+        
+      <div class="search-bar">
+        <input type="text" placeholder="Buscar una película..." id="searchInput" />
+        <button id="searchBtn">Buscar</button>
+      </div>
+    </section>
+
     <section id="favorite-movies-section" class="movies-section disabled">
       <h2>Películas favoritas</h2>
       <h4 id="no-colection" class="disabled">Aún no tienes una colección de películas favoritas</h4>
       <div id="favoriteMoviesGrid" class="movies-grid"></div>
     </section>
     <section class="movies-section">
-      <h2>Películas populares</h2>
-      <div id="moviesGrid" class="movies-grid"></div>
+      <h2>Películas Populares Esta Semana</h2>
+      <div class="movies-grid" id="moviesGrid">
+        <!-- Tarjetas de películas generadas con JS -->
+      </div>
     </section>
   </main>
 
