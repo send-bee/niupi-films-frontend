@@ -1,5 +1,5 @@
-const link = "http://localhost:5000"
-const blink = "https://niupi-films-backend.onrender.com"
+
+const link = "https://niupi-films-backend.onrender.com"
 document.addEventListener("DOMContentLoaded", () => {
   const grid = document.getElementById("moviesGrid");
   const searchInput = document.getElementById("searchInput");
