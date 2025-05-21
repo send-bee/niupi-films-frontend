@@ -1,5 +1,5 @@
-
-const link = "https://niupi-films-backend.onrender.com"
+const link = "http://localhost:5000"
+const blink = "https://niupi-films-backend.onrender.com"
 document.addEventListener("DOMContentLoaded", () => {
   const grid = document.getElementById("moviesGrid");
   const searchInput = document.getElementById("searchInput");
@@ -39,7 +39,6 @@ document.addEventListener("DOMContentLoaded", () => {
       grid.innerHTML = "<p>No se encontraron películas.</p>";
       return;
     }
-    console.log(peliculas)
     peliculas.forEach((pelicula) => {
       const card = document.createElement("div");
       card.className = "movie-card";
@@ -140,6 +139,32 @@ function updateRemoveButtons() {
   });
 }
 
+async function request (endpoint, body) {
+  const r = await fetch(endpoint, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body)        
+    })
+    .then(res => res.json())
+    .then(data => {return data})
+    .catch(error => {return error})
+  return r
+}
+
+function makeSwal ( message, icon) {
+  Swal.fire({
+    title: message,
+    icon: icon,
+    confirmButtonText: 'Aceptar',
+    customClass: {
+      title: 'custom-title',
+      confirmButton: 'custom-confirm',
+      popup: 'custom-popup'}
+    });
+}
 
 async function getFavoritesFilmsFromDb () {
   let userInLS = window.localStorage.getItem("niupi_films_user");
@@ -147,23 +172,13 @@ async function getFavoritesFilmsFromDb () {
     const favoritesGrid = document.getElementById("favoriteMoviesGrid");
     favoritesGrid.innerHTML = "";
     userToUse = JSON.parse(userInLS);
-    const response = await fetch(`${link}/api/peliculas/ids`, {
-      method: 'POST',
-      credentials: "include",
-      headers: {
-        'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-        favoritesFilms: userToUse.favoritesFilms })       
-      })
-      .then(res => res.json())
-      .then(data =>{ return data })
-
+    const endpoint = `${link}/api/peliculas/ids`;
+    const body = { favoritesFilms: userToUse.favoritesFilms }
+    const response = await request(endpoint, body);
     response.forEach((pelicula) => {
       const card = document.createElement("div");
       card.className = "movie-card";
       card.style.backgroundImage = `url('${pelicula.imagen || 'ruta_default_imagen.jpg'}')`;
-
       card.innerHTML = `
         <div class="movie-card-content">
           <button class="btn-secundary-remove" id="${pelicula._id}">❌</button>
@@ -174,7 +189,6 @@ async function getFavoritesFilmsFromDb () {
           <p><strong>Director:</strong> ${pelicula.director || "Desconocido"}</p>
         </div>
       `;
-
       favoritesGrid.appendChild(card);
     });
     updateRemoveButtons();
@@ -188,38 +202,17 @@ async function removeFavorite (e) {
   const index = userToUse.favoritesFilms.findIndex(id => {return id === idMovieToRemove});
   userToUse.favoritesFilms.splice(index, 1);
   try {
-    const r = await fetch(`${link}/portal-movies/update-favorites`, {
-      method: 'POST',
-      credentials: "include",
-      headers: {
-        'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: userToUse.email,
-          favoritesFilms: userToUse.favoritesFilms
-        })        
-      })
-      .then(res => res.json())
-      .then(data => {
-        window.localStorage.setItem("niupi_films_user", JSON.stringify({
+    const endpoint = `${link}/portal-movies/update-favorites`;
+    const body = { email: userToUse.email, favoritesFilms: userToUse.favoritesFilms }
+    const result = await request(endpoint, body);
+      window.localStorage.setItem("niupi_films_user", JSON.stringify({
           name: userToUse.name,
           email: userToUse.email,
           favoritesFilms: userToUse.favoritesFilms
         }))
-        Swal.fire({
-          title: `${data.message}`,
-          icon: "success",
-          confirmButtonText: 'Aceptar',
-          customClass: {
-              title: 'custom-title',
-              confirmButton: 'custom-confirm',
-              popup: 'custom-popup'}
-          });
-        getFavoritesFilmsFromDb();
-      })
-      .catch(error => console.log(error)) 
-  } catch (error) {console.log(error)} 
-  
+        makeSwal(result.message, "success");
+        getFavoritesFilmsFromDb(); 
+  } catch (error) {console.log(error)}  
 }
   
 async function addFavorite(e) {
@@ -228,68 +221,31 @@ async function addFavorite(e) {
     if(userInLS) {
       const user = JSON.parse(userInLS);
       return user
-    } else {
-      return false
-    }
+    } else { return false }
   }
   let userToUse = userLS()
   if (!userToUse) {
-    Swal.fire({
-      title: "Please sign in",
-      icon: "error",
-      confirmButtonText: 'Aceptar',
-      customClass: {
-        title: 'custom-title',
-        confirmButton: 'custom-confirm',
-        popup: 'custom-popup'}
-      });
+    makeSwal("Please sign in", "error")
     };
     if (userToUse) {
       let idMovieToAdd = e.currentTarget.id;
       let movieIn =  userToUse.favoritesFilms.includes(idMovieToAdd)
       if (movieIn) {
-        Swal.fire({
-          title: "This movie is already in your favorites movies",
-          icon: "error",
-          confirmButtonText: 'Aceptar',
-          customClass: {
-            title: 'custom-title',
-            confirmButton: 'custom-confirm',
-            popup: 'custom-popup'}
-          });
+        makeSwal("This movie is already in your favorites movies", "error")
       };
       if (!movieIn) {
         try {
           userToUse.favoritesFilms.push(idMovieToAdd);
-          const r = await fetch(`${link}/portal-movies/update-favorites`, {
-            method: 'POST',
-            credentials: "include",
-            headers: {
-              'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                email: userToUse.email,
-                favoritesFilms: userToUse.favoritesFilms
-              })        
-            })
-            .then(res => res.json())
-            .then(data => {
-              window.localStorage.setItem("niupi_films_user", JSON.stringify({
-                name: userToUse.name,
-                email: userToUse.email,
-                favoritesFilms: userToUse.favoritesFilms
-              }))
-              Swal.fire({
-                title: `${data.message}`,
-                icon: "success",
-                confirmButtonText: 'Aceptar',
-                customClass: {
-                    title: 'custom-title',
-                    confirmButton: 'custom-confirm',
-                    popup: 'custom-popup'}
-                });
-                getFavoritesFilmsFromDb();
-            }).catch(error => {console.log(error)}) 
+          const endpoint = `${link}/portal-movies/update-favorites`;
+          const body = { email: userToUse.email, favoritesFilms: userToUse.favoritesFilms }
+          const result = await request(endpoint, body);
+            window.localStorage.setItem("niupi_films_user", JSON.stringify({
+              name: userToUse.name,
+              email: userToUse.email,
+              favoritesFilms: userToUse.favoritesFilms
+            }))
+            makeSwal(result.message, "success")
+            getFavoritesFilmsFromDb(); 
         } catch (error) {console.log(error)}        
       }
     }

@@ -10,7 +10,6 @@ let heroSection = document.getElementById("hero-section");
 let heroUser = document.getElementById("hero-user");
 let heroUserName = document.getElementById("hero-user-name");
 let favoritesFilmSection = document.getElementById("favorite-movies-section");
-let noColection = document.getElementById("no-colection");
 let signUpSection = document.getElementById("sign-up");
 let signInSection = document.getElementById("sign-in");
 let signInButton = document.getElementById("iniciar-sesion-button");
@@ -37,9 +36,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
         heroUser.classList.remove("disabled");
         favoritesFilmSection.classList.remove("disabled");
         getFavoritesFilmsFromDb();
-        if (user.favoritesFilms.length < 1) {
-            noColection.classList.remove("disabled")
-        }
     }
 })
 
@@ -86,131 +82,73 @@ async function signUp (e) {
     e.preventDefault();
     signUpSubmitButton.classList.add("disabled");
     secondSpinner.classList.remove("disabled");
-    const res = await fetch(`${link}/portal-users/create-account`, {
-        method: 'POST',
-        credentials: "include",
-        headers: {
-        'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            name: signUpName.value,
-            email: signUpEmail.value,
-            password: signUpPassword.value
-        })        
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success) {
-            window.localStorage.setItem("niupi_films_user", JSON.stringify(data.data));
-            Swal.fire({
-                title: `${data.message}`,
-                icon: "success",
-                confirmButtonText: 'Aceptar',
-                customClass: {
-                    title: 'custom-title',
-                    confirmButton: 'custom-confirm',
-                    popup: 'custom-popup'}
-                });
-            heroUserName.innerText = `¡¡¡Hola ${data.data.name}!!!`;
-            signUpSubmitButton.classList.remove("disabled");
-            secondSpinner.classList.add("disabled");
-            heroMain.classList.remove("disabled");
-            signUpSection.classList.add("disabled");
-            signInButton.classList.add("disabled");
-            signOutButton.classList.remove("disabled");
-            heroSection.classList.add("disabled");
-            heroUser.classList.remove("disabled");
-            favoritesFilmSection.classList.remove("disabled");
-            getFavoritesFilmsFromDb();
-            if (data.data.favoritesFilms.length < 1) {
-            noColection.classList.remove("disabled")}
-            signUpName.value = "";
-            signUpEmail.value = "";
-            signUpPassword.value = "";
-        } else {
-          Swal.fire({
-            title: `${data.message}`,
-            icon: "error",
-            confirmButtonText: 'Aceptar',
-            customClass: {
-                title: 'custom-title',
-                confirmButton: 'custom-confirm',
-                popup: 'custom-popup'}
-            });
-            signUpSubmitButton.classList.remove("disabled");
-            secondSpinner.classList.add("disabled");
-            signUpName.value = "";
-            signUpEmail.value = "";
-            signUpPassword.value = "";
-        }
-    })
-    .catch(error => {
-        console.log(":C")
-    })
+    const endpoint = `${link}/portal-users/create-account`;
+    const body = {
+        name: signUpName.value,
+        email: signUpEmail.value,
+        password: signUpPassword.value
+    }
+    const res = await request(endpoint, body)
+    if (res.success) {
+        window.localStorage.setItem("niupi_films_user", JSON.stringify(res.data));
+        makeSwal(res.message, "success")
+        heroUserName.innerText = `¡¡¡Hola ${res.data.name}!!!`;
+        signUpSubmitButton.classList.remove("disabled");
+        secondSpinner.classList.add("disabled");
+        heroMain.classList.remove("disabled");
+        signUpSection.classList.add("disabled");
+        signInButton.classList.add("disabled");
+        signOutButton.classList.remove("disabled");
+        heroSection.classList.add("disabled");
+        heroUser.classList.remove("disabled");
+        favoritesFilmSection.classList.remove("disabled");
+        getFavoritesFilmsFromDb();
+        signUpName.value = "";
+        signUpEmail.value = "";
+        signUpPassword.value = "";
+    } else {
+        makeSwal(res.message, "error")
+        signUpSubmitButton.classList.remove("disabled");
+        secondSpinner.classList.add("disabled");
+        signUpName.value = "";
+        signUpEmail.value = "";
+        signUpPassword.value = "";
+    }
 }
 
 async function signIn (e) {
     e.preventDefault();
     signInSubmitButton.classList.add("disabled");
     firstSpinner.classList.remove("disabled");
-    const res = await fetch(`${link}/portal-users/create-session`, {
-        method: 'POST',
-        credentials: "include",
-        headers: {
-        'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            email: signInEmail.value,
-            password: signInPassword.value
-        })        
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success) {
-            window.localStorage.setItem("niupi_films_user", JSON.stringify(data.data));
-            Swal.fire({
-                title: `${data.message}`,
-                icon: "success",
-                confirmButtonText: 'Aceptar',
-                customClass: {
-                    title: 'custom-title',
-                    confirmButton: 'custom-confirm',
-                    popup: 'custom-popup'}
-                });
-            heroUserName.innerText = `¡¡¡Hola ${data.data.name}!!!`;
-            signInSubmitButton.classList.remove("disabled");
-            firstSpinner.classList.add("disabled");
-            heroMain.classList.remove("disabled");
-            signInSection.classList.add("disabled");
-            signInButton.classList.add("disabled");
-            signOutButton.classList.remove("disabled");
-            heroSection.classList.add("disabled");
-            heroUser.classList.remove("disabled");
-            favoritesFilmSection.classList.remove("disabled");
-            getFavoritesFilmsFromDb();
-            if (data.data.favoritesFilms.length < 1) {
-            noColection.classList.remove("disabled")}
-            signInEmail.value = "";
-            signInPassword.value = "";
-        } else {
-          Swal.fire({
-            title: `${data.message}`,
-            icon: "error",
-            confirmButtonText: 'Aceptar',
-            customClass: {
-                title: 'custom-title',
-                confirmButton: 'custom-confirm',
-                popup: 'custom-popup'}
-            });
-            signInSubmitButton.classList.remove("disabled");
-            firstSpinner.classList.add("disabled");
-            signInEmail.value = "";
-            signInPassword.value = "";
-        }
-    })
-    .catch(error => {
-        console.log(":C")
-    })
+    const endpoint = `${link}/portal-users/create-session`;
+    const body = {
+        email: signInEmail.value,
+        password: signInPassword.value
+    }
+    const res = await request(endpoint, body);
+    if (res.success) {
+        window.localStorage.setItem("niupi_films_user", JSON.stringify(res.data));
+        makeSwal(res.message, "success")
+        heroUserName.innerText = `¡¡¡Hola ${res.data.name}!!!`;
+        signInSubmitButton.classList.remove("disabled");
+        firstSpinner.classList.add("disabled");
+        heroMain.classList.remove("disabled");
+        signInSection.classList.add("disabled");
+        signInButton.classList.add("disabled");
+        signOutButton.classList.remove("disabled");
+        heroSection.classList.add("disabled");
+        heroUser.classList.remove("disabled");
+        favoritesFilmSection.classList.remove("disabled");
+        getFavoritesFilmsFromDb();
+        signInEmail.value = "";
+        signInPassword.value = "";
+    } else {
+        makeSwal(res.message, "error")
+        signInSubmitButton.classList.remove("disabled");
+        firstSpinner.classList.add("disabled");
+        signInEmail.value = "";
+        signInPassword.value = "";
+    }
 }
 
 signInSubmitButton.addEventListener("click", signIn);
